@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "hm/flourish-embed",
+	"title": "Flourish Embed",
+	"description": "Embed Flourish data visualizations",
+	"category": "embed",
+	"icon": "chart-line",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "visualisation"
+		},
+		"id": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true,
+			"text": false,
+			"gradients": false,
+			"duotone": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}
