@@ -3,8 +3,9 @@
  */
 
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
+import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
+import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/components';
 import SandboxedServerSideRender from './components/SandboxedServerSideRender';
 
 registerBlockType( 'hm/flourish-embed', {
@@ -14,7 +15,15 @@ registerBlockType( 'hm/flourish-embed', {
 	icon: 'chart-line',
 	edit: ( { attributes, setAttributes } ) => {
 		const blockProps = useBlockProps();
-		const { type, id } = attributes;
+		const { type, id, fallbackImageId } = attributes;
+
+		// Fetch media object from the store using the ID
+		const media = useSelect(
+			( select ) => fallbackImageId ? select( 'core' ).getMedia( fallbackImageId ) : null,
+			[ fallbackImageId ]
+		);
+
+		const fallbackImageUrl = media?.source_url;
 
 		return (
 			<>
@@ -35,6 +44,43 @@ registerBlockType( 'hm/flourish-embed', {
 							onChange={ ( newId ) => setAttributes( { id: newId } ) }
 							placeholder="Enter Flourish ID"
 						/>
+					</PanelBody>
+					<PanelBody title="Fallback Image for RSS">
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={ ( selectedMedia ) => setAttributes( {
+									fallbackImageId: selectedMedia.id,
+								} ) }
+								allowedTypes={ [ 'image' ] }
+								value={ fallbackImageId }
+								render={ ( { open } ) => (
+									<>
+										{ fallbackImageUrl && (
+											<div style={ { marginBottom: '10px' } }>
+												<img src={ fallbackImageUrl } alt="Fallback" style={ { maxWidth: '100%', height: 'auto' } } />
+											</div>
+										) }
+										<Button
+											onClick={ open }
+											variant="primary"
+										>
+											{ fallbackImageId ? 'Replace Image' : 'Upload Image' }
+										</Button>
+										{ fallbackImageId ? (
+											<Button
+												onClick={ () => setAttributes( {
+													fallbackImageId: 0,
+												} ) }
+												variant="secondary"
+												style={ { marginLeft: '10px' } }
+											>
+												Remove Image
+											</Button>
+										) : null }
+									</>
+								) }
+							/>
+						</MediaUploadCheck>
 					</PanelBody>
 				</InspectorControls>
 				<div { ...blockProps }>
