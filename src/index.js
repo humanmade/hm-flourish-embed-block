@@ -5,7 +5,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/components';
+import { PanelBody, TextControl, SelectControl, Button, ToggleControl } from '@wordpress/components';
 import SandboxedServerSideRender from './components/SandboxedServerSideRender';
 
 registerBlockType( 'hm/flourish-embed', {
@@ -15,7 +15,7 @@ registerBlockType( 'hm/flourish-embed', {
 	icon: 'chart-line',
 	edit: ( { attributes, setAttributes } ) => {
 		const blockProps = useBlockProps();
-		const { type, id, fallbackImageId } = attributes;
+		const { type, id, fallbackImageId, useFallbackImageForRSS } = attributes;
 
 		// Fetch media object from the store using the ID
 		const media = useSelect(
@@ -45,7 +45,7 @@ registerBlockType( 'hm/flourish-embed', {
 							placeholder="Enter Flourish ID"
 						/>
 					</PanelBody>
-					<PanelBody title="Fallback Image for RSS">
+					<PanelBody title="Fallback Image">
 						<MediaUploadCheck>
 							<MediaUpload
 								onSelect={ ( selectedMedia ) => setAttributes( {
@@ -81,6 +81,16 @@ registerBlockType( 'hm/flourish-embed', {
 								) }
 							/>
 						</MediaUploadCheck>
+						{ fallbackImageId > 0 && (
+							<div style={ { marginTop: '15px' } }>
+								<ToggleControl
+									label="Use in RSS Feeds"
+									help={ useFallbackImageForRSS ? 'Fallback image will be shown in RSS feeds' : 'Standard Flourish embed will be shown in RSS feeds' }
+										checked={ useFallbackImageForRSS }
+										onChange={ ( newValue ) => setAttributes( { useFallbackImageForRSS: newValue } ) }
+								/>
+							</div>
+						) }
 					</PanelBody>
 				</InspectorControls>
 				<div { ...blockProps }>

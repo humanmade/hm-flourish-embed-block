@@ -18,6 +18,10 @@
 		"fallbackImageId": {
 			"type": "integer",
 			"default": 0
+		},
+		"useFallbackImageForRSS": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
