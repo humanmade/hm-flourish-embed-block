@@ -5,7 +5,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
-import ServerSideRender from '@wordpress/server-side-render';
+import SandboxedServerSideRender from './components/SandboxedServerSideRender';
 
 registerBlockType( 'hm/flourish-embed', {
 	title: 'Flourish Embed',
@@ -38,9 +38,12 @@ registerBlockType( 'hm/flourish-embed', {
 					</PanelBody>
 				</InspectorControls>
 				<div { ...blockProps }>
-					<ServerSideRender
+					<SandboxedServerSideRender
 						block="hm/flourish-embed"
 						attributes={ attributes }
+						messages={ {
+							emptyResponse: 'Please enter a Flourish ID to preview the embed.',
+						} }
 					/>
 				</div>
 			</>
