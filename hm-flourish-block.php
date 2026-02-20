@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Flourish Block
+ * Plugin Name: Flourish Embed Block
  * Description: Flourish data embed blocks
  */
 
