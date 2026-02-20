@@ -1,0 +1,12 @@
+{
+    "name": "humanmade/hm-flourish-block",
+    "description": "Embed Flourish visualisations and stories.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Human Made"
+        }
+    ],
+    "require": {}
+}
