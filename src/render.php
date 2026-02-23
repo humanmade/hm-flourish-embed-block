@@ -34,8 +34,9 @@ $wrapper_attributes = get_block_wrapper_attributes();
 $is_sandboxed = isset( $_GET['sandboxedPreview'] ) && $_GET['sandboxedPreview'] === '1';
 
 // Determine whether to show fallback or embed.
-$show_fallback = ( empty( $data_src ) || ( is_feed() && $use_fallback_for_rss ) ) && $fallback_image_html;
+$show_fallback = ! $is_sandboxed && ( empty( $data_src ) || ( is_feed() && $use_fallback_for_rss ) ) && $fallback_image_html;
 
+// For sandboxed previews and RSS feeds with fallback enabled, we need to output the script inline to ensure it loads correctly.
 $output_script_inline = $is_sandboxed || is_feed();
 
 echo '<div ' . wp_kses_data( $wrapper_attributes ) . '>';
