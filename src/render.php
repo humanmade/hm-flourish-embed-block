@@ -46,8 +46,16 @@ if ( $show_fallback && $fallback_image_html ) {
 } elseif ( ! empty( $data_src ) ) {
 	echo '<div class="flourish-embed flourish-chart" data-src="' . esc_attr( $data_src ) . '"></div>';
 
-	// For sandboxed previews, output the script inline.
+	// For sandboxed previews, add cache-busting to ensure script executes in each iframe.
 	if ( $output_script_inline ) {
+		if ( $is_sandboxed ) {
+			// Get the registered script and modify its version for cache-busting.
+			$wp_scripts = wp_scripts();
+			if ( isset( $wp_scripts->registered['flourish-embed'] ) ) {
+				$wp_scripts->registered['flourish-embed']->ver = uniqid();
+			}
+		}
+
 		wp_print_scripts( 'flourish-embed' );
 	}
 }
