@@ -4,7 +4,7 @@
 
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
+import { PanelBody, TextControl, SelectControl, ToggleControl } from '@wordpress/components';
 import SandboxedServerSideRender from './components/SandboxedServerSideRender';
 
 registerBlockType( 'hm/flourish-embed', {
@@ -14,7 +14,7 @@ registerBlockType( 'hm/flourish-embed', {
 	icon: 'chart-line',
 	edit: ( { attributes, setAttributes } ) => {
 		const blockProps = useBlockProps();
-		const { type, id } = attributes;
+		const { type, id, showRssImageFallback } = attributes;
 
 		return (
 			<>
@@ -34,6 +34,13 @@ registerBlockType( 'hm/flourish-embed', {
 							value={ id }
 							onChange={ ( newId ) => setAttributes( { id: newId } ) }
 							placeholder="Enter Flourish ID"
+						/>
+						<ToggleControl
+							label="Use image fallback in RSS feeds"
+							checked={ showRssImageFallback }
+							onChange={ ( enabled ) =>
+								setAttributes( { showRssImageFallback: enabled } )
+							}
 						/>
 					</PanelBody>
 				</InspectorControls>
