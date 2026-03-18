@@ -6,8 +6,9 @@
  */
 
 // Get block attributes.
-$type = isset( $attributes['type'] ) ? $attributes['type'] : 'visualisation';
-$id   = isset( $attributes['id'] ) ? $attributes['id'] : '';
+$type                    = isset( $attributes['type'] ) ? $attributes['type'] : 'visualisation';
+$id                      = isset( $attributes['id'] ) ? $attributes['id'] : '';
+$show_rss_image_fallback = isset( $attributes['showRssImageFallback'] ) ? (bool) $attributes['showRssImageFallback'] : true;
 
 // Exit early if nothing to render.
 if ( empty( $id ) ) {
@@ -21,7 +22,7 @@ $thumbnail_url = sprintf( 'https://public.flourish.studio/%s/%s/thumbnail', $typ
 $is_sandboxed = isset( $_GET['sandboxedPreview'] ) && $_GET['sandboxedPreview'] === '1';
 
 // Determine whether to show fallback.
-$show_fallback = is_feed();
+$show_fallback = is_feed() && $show_rss_image_fallback;
 
 // For sandboxed previews and RSS feeds, output the script inline to ensure it loads correctly.
 $output_script_inline = $is_sandboxed || is_feed();
