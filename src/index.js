@@ -47,7 +47,7 @@ registerBlockType( 'hm/flourish-embed', {
 				<div { ...blockProps }>
 					<SandboxedServerSideRender
 						block="hm/flourish-embed"
-						attributes={ attributes }
+						attributes={ { type, id, showRssImageFallback } }
 						messages={ {
 							emptyResponse: 'Please enter a Flourish ID to preview the embed.',
 						} }
