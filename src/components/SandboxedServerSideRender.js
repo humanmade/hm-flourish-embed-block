@@ -32,15 +32,10 @@ export default function SandboxedServerSideRender( {
 		const path = addQueryArgs( `/wp/v2/block-renderer/${ block }`, {
 			context: 'edit',
 			sandboxedPreview: '1',
+			attributes,
 		} );
 
-		apiFetch( {
-			path,
-			method: 'POST',
-			data: {
-				attributes,
-			},
-		} )
+		apiFetch( { path } )
 			.then( ( response ) => {
 				setHtml( response.rendered || '' );
 				setIsLoading( false );
