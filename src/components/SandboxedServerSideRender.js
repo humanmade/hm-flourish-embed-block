@@ -75,5 +75,8 @@ export default function SandboxedServerSideRender( {
 		);
 	}
 
-	return <SandBox html={ html } />;
+	// WordPress 7.1 made SandBox isolate the iframe (no allow-same-origin) by default.
+	// Flourish's embed script does nothing in an opaque origin, so opt back in, as
+	// core does for its own oEmbed previews. Ignored on older WordPress.
+	return <SandBox allowSameOrigin html={ html } />;
 }
